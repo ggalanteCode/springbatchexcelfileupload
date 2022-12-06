@@ -14,6 +14,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import com.soprasteria.springbatchexcelfileupload.repo.UserRepo;
+import com.soprasteria.springbatchexcelfileupload.utils.EmailUtils;
 
 /*
  * https://savagerose.org/it/java-batch-tutorial-italiano/
@@ -26,35 +27,19 @@ import com.soprasteria.springbatchexcelfileupload.repo.UserRepo;
 public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
 
 	private static final Logger logger = LoggerFactory.getLogger(JobCompletionNotificationListener.class);
-	
+
 	@Autowired
-	private UserRepo userRepo;
-	
-	@Autowired
-	private JavaMailSender javaMailSender;
+	private EmailUtils emailUtils;
 
 	@Override
 	public void afterJob(JobExecution jobExecution) {
 		// TODO Auto-generated method stub
 		if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
-			System.out.println("!!! JOB FINISHED! Time to verify the results");
-			userRepo.findAll().forEach(phase -> System.out.println("Found a new user in the database."));
+			logger.info("!!! JOB FINISHED! Time to verify the results");
 		} else if (jobExecution.getStatus() == BatchStatus.FAILED) {
 			logger.error("!!! JOB FAILED...");
-			MimeMessage message = javaMailSender.createMimeMessage();
-			
-	        try {
-	        	MimeMessageHelper helper = new MimeMessageHelper(message, true);//true indicates multipart message
-		        helper.setFrom("3968d203-2bc1-4749-98ba-058213238d4d@mailslurp.mx");
-		        helper.setSubject("Job Error: FAILED");
-		        helper.setTo("3968d203-2bc1-4749-98ba-058213238d4d@mailslurp.mx");
-				helper.setText("EXCEL FILE UPLOAD: The following exceptions occurred: " + jobExecution.getAllFailureExceptions().toString(), true); //true indicates body is html
-			} catch (MessagingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        
-	        javaMailSender.send(message);
+			emailUtils.send("Job Error: FAILED", "EXCEL FILE UPLOAD: The following exceptions occurred: "
+					+ jobExecution.getAllFailureExceptions().toString());
 		}
 	}
 
