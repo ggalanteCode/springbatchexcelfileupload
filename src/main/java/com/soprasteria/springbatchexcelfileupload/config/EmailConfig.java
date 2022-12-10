@@ -7,13 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-
-import com.soprasteria.springbatchexcelfileupload.utils.EmailUtils;
-import com.soprasteria.springbatchexcelfileupload.utils.impl.EmailUtilsImpl;
 
 @Configuration
 public class EmailConfig {
@@ -59,10 +54,5 @@ public class EmailConfig {
         mailSender.setPassword(password);
         return mailSender;
     }
-	
-	@Bean
-	public EmailUtils emailUtils() {
-		return new EmailUtilsImpl();
-	}
 
 }

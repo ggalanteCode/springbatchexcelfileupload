@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.soprasteria.springbatchexcelfileupload.listener.JobCompletionNotificationListener;
 import com.soprasteria.springbatchexcelfileupload.model.User;
 import com.soprasteria.springbatchexcelfileupload.reader.ExcelUserReader;
 import com.soprasteria.springbatchexcelfileupload.writer.DBWriter;

@@ -40,7 +40,7 @@
     </root>
 
     <!-- LOG "com.soprasteria.springbatchCSVfileupload2.*" at TRACE level -->
-    <logger name="com.soprasteria.springbatchCSVfileupload2" level="trace" additivity="false">
+    <logger name="com.soprasteria.springbatchexcelfileupload" level="trace" additivity="false">
         <appender-ref ref="RotateDailyErrorRollingFile" />
         <appender-ref ref="Console" />
     </logger>
